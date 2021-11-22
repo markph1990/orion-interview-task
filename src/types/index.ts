@@ -9,3 +9,5 @@ export interface Joke {
   id: string;
   joke: string;
 }
+
+export type LikedJoke = Joke["id"];
