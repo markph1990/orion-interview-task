@@ -1,5 +1,7 @@
 import { Joke } from "../../types";
 
+import Like from "../Like/view";
+
 import "./style.css";
 
 interface OwnProps {
@@ -10,7 +12,8 @@ const JokesList = ({ jokes }: OwnProps) => (
   <ul className="jokes">
     {jokes.map(({ id, joke }) => (
       <li key={id} className="joke">
-        {joke}
+        <p>{joke}</p>
+        <Like handleClick={() => {}} />
       </li>
     ))}
   </ul>
