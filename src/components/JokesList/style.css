@@ -1,0 +1,13 @@
+.jokes {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  row-gap: 16px;
+}
+
+.joke {
+  padding: 16px;
+  border: 1px #ddd solid;
+  border-radius: 4px;
+  background: white;
+}
