@@ -1,6 +1,4 @@
-import { useState, useCallback } from "react";
-
-import { API_CALL_ENUM, LikedJoke, JOKES_FILTER } from "../../types";
+import { API_CALL_ENUM } from "../../types";
 
 import JokesList from "../../components/JokesList/view";
 
@@ -8,22 +6,8 @@ import { useGetJokesData } from "./hooks";
 import "./style.css";
 
 const Jokes = () => {
-  const { jokes, status } = useGetJokesData();
-  // TODO
-  // make it more persistent, by keeping it in local storage
-  const [likedJokes, setLikedJokes] = useState<LikedJoke[]>([]);
-  const [filter, setFilter] = useState<JOKES_FILTER>(JOKES_FILTER.ALL);
-  const toggleLikedJoke = useCallback(
-    (id: LikedJoke) => {
-      const isJokeLiked = likedJokes.some((jokeId) => jokeId === id);
-      if (isJokeLiked) {
-        setLikedJokes((jokes) => jokes.filter((jokeId) => jokeId !== id));
-      } else {
-        setLikedJokes((jokes) => [...jokes, id]);
-      }
-    },
-    [likedJokes, setLikedJokes]
-  );
+  const { jokes, status, toggleLikedJoke, filter, setFilter } =
+    useGetJokesData();
 
   const renderJokes = () => {
     switch (status) {
