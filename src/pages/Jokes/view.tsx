@@ -13,7 +13,7 @@ const Jokes = () => {
     switch (status) {
       case API_CALL_ENUM.INITIAL:
       case API_CALL_ENUM.IN_PROGRESS:
-        return "Dad jokes loading, pleas wait...";
+        return "Dad jokes loading, please wait...";
       case API_CALL_ENUM.ERROR:
         return "Dad jokes not found in the dad-a-base.";
       case API_CALL_ENUM.SUCCESS:
