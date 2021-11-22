@@ -1,26 +1,39 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 
 import { getJokes } from "../../api/jokes";
 import { API_CALL_ENUM, Joke, LikedJoke, JOKES_FILTER } from "../../types";
 
 export const useGetJokesData = () => {
   const [status, setStatus] = useState(API_CALL_ENUM.INITIAL);
-  const [jokes, setJokes] = useState<Joke[]>([]);
+  const [jokesData, setJokesData] = useState<Joke[]>([]);
   // TODO
   // make it more persistent, by keeping it in local storage
-  const [likedJokes, setLikedJokes] = useState<LikedJoke[]>([]);
+  // also keep it in data structure where retrieving individual element
+  // takes constant time and it's api is immutable (not like for example native Set)
+  const [likedJokesId, setLikedJokesId] = useState<LikedJoke[]>([]);
   const [filter, setFilter] = useState<JOKES_FILTER>(JOKES_FILTER.ALL);
+
+  const jokes = useMemo(() => {
+    switch (filter) {
+      case JOKES_FILTER.ALL:
+        return jokesData;
+      case JOKES_FILTER.LIKED:
+        return likedJokesId.map((likedJokeId) =>
+          jokesData.find(({ id }) => likedJokeId === id)
+        );
+    }
+  }, [jokesData, likedJokesId, filter]);
 
   const toggleLikedJoke = useCallback(
     (id: LikedJoke) => {
-      const isJokeLiked = likedJokes.some((jokeId) => jokeId === id);
+      const isJokeLiked = likedJokesId.some((jokeId) => jokeId === id);
       if (isJokeLiked) {
-        setLikedJokes((jokes) => jokes.filter((jokeId) => jokeId !== id));
+        setLikedJokesId((jokes) => jokes.filter((jokeId) => jokeId !== id));
       } else {
-        setLikedJokes((jokes) => [...jokes, id]);
+        setLikedJokesId((jokes) => [...jokes, id]);
       }
     },
-    [likedJokes, setLikedJokes]
+    [likedJokesId, setLikedJokesId]
   );
 
   useEffect(() => {
@@ -28,7 +41,7 @@ export const useGetJokesData = () => {
     getJokes()
       .then((jokes) => {
         setStatus(API_CALL_ENUM.SUCCESS);
-        setJokes(jokes);
+        setJokesData(jokes);
       })
       .catch(() => {
         setStatus(API_CALL_ENUM.ERROR);
