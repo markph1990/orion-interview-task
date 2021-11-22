@@ -6,6 +6,9 @@ export const getJokes = async () => {
       Accept: "application/json",
     },
   });
+  if (!response.ok) {
+    throw new Error("response was not ok");
+  }
   const { results } = await response.json();
 
   return results;
