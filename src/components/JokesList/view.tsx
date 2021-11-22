@@ -8,9 +8,9 @@ interface OwnProps {
 
 const JokesList = ({ jokes }: OwnProps) => (
   <ul className="jokes">
-    {jokes.map(({ text, id }) => (
+    {jokes.map(({ id, joke }) => (
       <li key={id} className="joke">
-        {text}
+        {joke}
       </li>
     ))}
   </ul>
