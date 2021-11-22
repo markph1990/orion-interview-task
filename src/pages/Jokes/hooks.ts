@@ -18,7 +18,7 @@ export const useGetJokesData = () => {
       case JOKES_FILTER.ALL:
         return jokesData;
       case JOKES_FILTER.LIKED:
-        // we have to reduce, instead of map, over it due to how search for liked joke
+        // we have to reduce, instead of map, over it due to how search for liked joke works
         // (via find) which might return undefined which we don't want in our final result
         return likedJokesId.reduce<Joke[]>((accum, likedJokeId) => {
           const foundJoke = jokesData.find(({ id }) => likedJokeId === id);
