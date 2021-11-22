@@ -11,3 +11,8 @@ export interface Joke {
 }
 
 export type LikedJoke = Joke["id"];
+
+export enum JOKES_FILTER {
+  ALL = "ALL",
+  LIKED = "LIKED",
+}

@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 
-import { API_CALL_ENUM, LikedJoke } from "../../types";
+import { API_CALL_ENUM, LikedJoke, JOKES_FILTER } from "../../types";
 
 import JokesList from "../../components/JokesList/view";
 
@@ -12,6 +12,7 @@ const Jokes = () => {
   // TODO
   // make it more persistent, by keeping it in local storage
   const [likedJokes, setLikedJokes] = useState<LikedJoke[]>([]);
+  const [filter, setFilter] = useState<JOKES_FILTER>(JOKES_FILTER.ALL);
   const toggleLikedJoke = useCallback(
     (id: LikedJoke) => {
       const isJokeLiked = likedJokes.some((jokeId) => jokeId === id);
@@ -32,7 +33,14 @@ const Jokes = () => {
       case API_CALL_ENUM.ERROR:
         return "Dad jokes not found in the dad-a-base.";
       case API_CALL_ENUM.SUCCESS:
-        return <JokesList jokes={jokes} toggleLikedJoke={toggleLikedJoke} />;
+        return (
+          <JokesList
+            jokes={jokes}
+            toggleLikedJoke={toggleLikedJoke}
+            filter={filter}
+            setFilter={setFilter}
+          />
+        );
     }
   };
 
